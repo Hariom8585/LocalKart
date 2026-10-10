@@ -142,43 +142,45 @@ export default function ShopDetailPage({ onOpenSearch }: { onOpenSearch?: () => 
 
               <div style={{
                 position: 'absolute',
-                bottom: 16,
-                left: 20,
+                bottom: 14,
+                left: 16,
+                right: 16,
                 color: '#ffffff',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
               }}>
-                <Zap size={18} style={{ fill: '#34d399', color: '#34d399' }} />
-                <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em' }}>
+                <Zap size={16} style={{ fill: '#34d399', color: '#34d399', flexShrink: 0 }} />
+                <span style={{ fontSize: 'clamp(11px, 2.4vw, 13px)', fontWeight: 700, letterSpacing: '0.03em', lineHeight: 1.2 }}>
                   GUARANTEED SAME-DAY DELIVERY TO YOUR AREA
                 </span>
               </div>
             </div>
 
             {/* Shop Details Info */}
-            <div style={{ padding: '20px 24px', display: 'flex', flexWrap: 'wrap', gap: 20, justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+            <div style={{ padding: 'clamp(16px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
                 <img
                   src={shop.logo_url}
                   alt={shop.name}
                   style={{
-                    width: 72,
-                    height: 72,
+                    width: 64,
+                    height: 64,
                     borderRadius: 'var(--radius-md)',
                     objectFit: 'cover',
                     border: '3px solid #ffffff',
                     boxShadow: 'var(--shadow-md)',
-                    marginTop: -36,
+                    marginTop: -32,
                     background: '#ffffff',
                     position: 'relative',
                     zIndex: 2,
+                    flexShrink: 0,
                   }}
                 />
 
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <h1 style={{ fontSize: 22, lineHeight: 1.2 }}>{shop.name}</h1>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <h1 style={{ fontSize: 'clamp(18px, 4vw, 22px)', lineHeight: 1.2 }}>{shop.name}</h1>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--primary)', fontSize: 12, fontWeight: 700 }}>
                       <CheckCircle2 size={16} />
                       Verified Local Merchant
@@ -192,10 +194,10 @@ export default function ShopDetailPage({ onOpenSearch }: { onOpenSearch?: () => 
               </div>
 
               {/* Stats / Badges */}
-              <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: '#065f46', color: '#ffffff', padding: '4px 10px', borderRadius: 'var(--radius-sm)', fontSize: 14, fontWeight: 800 }}>
-                    <Star size={14} style={{ fill: '#ffffff' }} />
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: '#065f46', color: '#ffffff', padding: '3px 8px', borderRadius: 'var(--radius-sm)', fontSize: 13, fontWeight: 800 }}>
+                    <Star size={13} style={{ fill: '#ffffff' }} />
                     <span>{shop.rating.toFixed(1)}</span>
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
@@ -203,9 +205,9 @@ export default function ShopDetailPage({ onOpenSearch }: { onOpenSearch?: () => 
                   </div>
                 </div>
 
-                <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 16 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <Clock size={15} style={{ color: 'var(--primary)' }} />
+                <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 12 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <Clock size={14} style={{ color: 'var(--primary)', flexShrink: 0 }} />
                     <span>{shop.estimated_delivery_min}–{shop.estimated_delivery_max} min</span>
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
@@ -213,8 +215,8 @@ export default function ShopDetailPage({ onOpenSearch }: { onOpenSearch?: () => 
                   </div>
                 </div>
 
-                <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 16 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-main)' }}>
+                <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 12 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)' }}>
                     {formatINR(shop.min_order_amount)}
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
@@ -222,8 +224,8 @@ export default function ShopDetailPage({ onOpenSearch }: { onOpenSearch?: () => 
                   </div>
                 </div>
 
-                <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 16 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: shop.base_delivery_fee === 0 ? 'var(--success)' : 'var(--text-main)' }}>
+                <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 12 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: shop.base_delivery_fee === 0 ? 'var(--success)' : 'var(--text-main)' }}>
                     {shop.base_delivery_fee === 0 ? 'FREE' : formatINR(shop.base_delivery_fee)}
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
@@ -244,7 +246,7 @@ export default function ShopDetailPage({ onOpenSearch }: { onOpenSearch?: () => 
             marginBottom: 24,
           }}>
             {/* Category Tabs */}
-            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', maxWidth: '100%', paddingBottom: 4 }}>
               <button
                 type="button"
                 onClick={() => setActiveCategoryTab('all')}

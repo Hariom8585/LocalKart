@@ -90,7 +90,7 @@ export const Footer: React.FC = () => {
           <div>
             © {new Date().getFullYear()} LocalKart India Technologies. All rights reserved.
           </div>
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center', color: '#64748b' }}>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#64748b', flexWrap: 'wrap' }}>
             <span>Razorpay Secured</span>
             <span>•</span>
             <span>UPI / RuPay / Cards</span>

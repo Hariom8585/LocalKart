@@ -38,100 +38,161 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
 
   return (
     <header className="navbar">
-      <div className="container nav-container">
-        <div className="nav-left">
-          {/* Brand Logo */}
-          <Link href="/" className="brand-logo">
-            <div style={{
-              width: 38,
-              height: 38,
-              borderRadius: 12,
-              background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#ffffff',
-              boxShadow: '0 4px 10px rgba(5, 150, 105, 0.3)'
-            }}>
-              <Sparkles size={22} />
-            </div>
-            <span>Local<span>Kart</span></span>
-          </Link>
+      <div className="container nav-main-wrapper">
+        {/* DESKTOP NAVBAR (>= 768px) */}
+        <div className="nav-container desktop-nav">
+          <div className="nav-left">
+            {/* Brand Logo */}
+            <Link href="/" className="brand-logo" aria-label="LocalKart Home">
+              <div className="brand-logo-icon">
+                <Sparkles size={20} />
+              </div>
+              <span>Local<span>Kart</span></span>
+            </Link>
 
-          {/* Location Selector Button */}
-          <button
-            type="button"
-            onClick={() => setIsLocationModalOpen(true)}
-            className="location-picker-btn"
-            title="Click to change delivery city & locality"
-          >
-            <span className="loc-badge">
-              <MapPin size={16} />
-            </span>
-            <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>
-                Deliver to
+            {/* Location Selector Button */}
+            <button
+              type="button"
+              onClick={() => setIsLocationModalOpen(true)}
+              className="location-picker-btn"
+              title="Click to change delivery city & locality"
+              aria-label={`Deliver to ${selectedArea.name}, ${selectedCity.name}`}
+            >
+              <span className="loc-badge">
+                <MapPin size={16} />
+              </span>
+              <div className="location-btn-content">
+                <div className="location-btn-label">
+                  Deliver to
+                </div>
+                <div className="location-btn-value">
+                  <span className="location-name-text">{selectedArea.name}, {selectedCity.name}</span>
+                  <ChevronDown size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                </div>
               </div>
-              <div style={{ fontWeight: 700, fontSize: '13px', display: 'flex', alignItems: 'center', gap: 4 }}>
-                {selectedArea.name}, {selectedCity.name}
-                <ChevronDown size={14} style={{ color: 'var(--text-muted)' }} />
+            </button>
+          </div>
+
+          {/* Global Search Bar */}
+          <div className="nav-search-bar">
+            <form onSubmit={handleSearchSubmit}>
+              <div className="search-input-wrapper">
+                <Search size={18} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                <input
+                  type="text"
+                  placeholder='Search "milk", "bread", "pharmacy", "Sharma Store"...'
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onFocus={() => {
+                    if (onOpenSearch) onOpenSearch();
+                  }}
+                  aria-label="Search products and stores"
+                />
               </div>
-            </div>
-          </button>
+            </form>
+          </div>
+
+          {/* Actions */}
+          <div className="nav-actions">
+            <Link
+              href="/customer"
+              className="btn btn-outline btn-sm nav-action-btn"
+              title="Customer Dashboard & Profile"
+            >
+              <UserIcon size={16} />
+              <span>Account</span>
+            </Link>
+
+            <Link
+              href="/orders"
+              className="btn btn-outline btn-sm nav-action-btn"
+              title="Track Orders"
+            >
+              <Package size={16} />
+              <span>Orders</span>
+            </Link>
+
+            {/* Cart Button with Total Amount */}
+            <button
+              type="button"
+              onClick={() => setIsCartDrawerOpen(true)}
+              className="cart-button"
+              title="View Shopping Cart"
+              aria-label={`Shopping cart with ${itemCount} items`}
+            >
+              <ShoppingBag size={18} />
+              <span style={{ fontWeight: 700 }}>
+                {itemCount > 0 ? formatINR(totalAmount) : 'Cart'}
+              </span>
+              {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
+            </button>
+          </div>
         </div>
 
-        {/* Global Search Bar */}
-        <div className="nav-search-bar">
-          <form onSubmit={handleSearchSubmit}>
-            <div className="search-input-wrapper">
-              <Search size={18} style={{ color: 'var(--text-muted)' }} />
-              <input
-                type="text"
-                placeholder='Search "milk", "bread", "pharmacy", "Sharma Store"...'
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                onFocus={() => {
+        {/* MOBILE NAVBAR (< 768px) */}
+        <div className="mobile-nav-block">
+          {/* Top Row: Logo + Location Picker + Cart Button */}
+          <div className="mobile-nav-top-row">
+            <Link href="/" className="brand-logo mobile-logo" aria-label="LocalKart Home">
+              <div className="brand-logo-icon mobile-logo-icon">
+                <Sparkles size={17} />
+              </div>
+              <span className="mobile-logo-text">Local<span>Kart</span></span>
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => setIsLocationModalOpen(true)}
+              className="location-picker-btn mobile-location-btn"
+              title="Change Delivery Location"
+              aria-label={`Deliver to ${selectedArea.name}`}
+            >
+              <MapPin size={14} className="mobile-loc-icon" />
+              <div className="mobile-loc-text-wrap">
+                <span className="mobile-loc-title">{selectedArea.name}</span>
+                <ChevronDown size={12} className="mobile-loc-arrow" />
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsCartDrawerOpen(true)}
+              className="mobile-nav-cart-btn"
+              aria-label={`Shopping cart with ${itemCount} items`}
+              title="View Cart"
+            >
+              <ShoppingBag size={19} />
+              {itemCount > 0 && (
+                <span className="mobile-cart-badge">{itemCount}</span>
+              )}
+            </button>
+          </div>
+
+          {/* Bottom Row: Full-Width Search Input */}
+          <div className="mobile-nav-search-row">
+            <form onSubmit={handleSearchSubmit} className="mobile-search-form">
+              <div
+                className="mobile-search-wrapper"
+                onClick={() => {
                   if (onOpenSearch) onOpenSearch();
                 }}
-              />
-            </div>
-          </form>
-        </div>
-
-        {/* Actions */}
-        <div className="nav-actions">
-          <Link
-            href="/customer"
-            className="btn btn-outline btn-sm"
-            style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-            title="Customer Dashboard & Profile"
-          >
-            <UserIcon size={16} />
-            <span style={{ display: 'inline' }}>Account</span>
-          </Link>
-
-          <Link
-            href="/orders"
-            className="btn btn-outline btn-sm"
-            style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-          >
-            <Package size={16} />
-            <span style={{ display: 'inline' }}>Orders</span>
-          </Link>
-
-          {/* Cart Button with Total Amount */}
-          <button
-            type="button"
-            onClick={() => setIsCartDrawerOpen(true)}
-            className="cart-button"
-            title="View Shopping Cart"
-          >
-            <ShoppingBag size={18} />
-            <span style={{ fontWeight: 700 }}>
-              {itemCount > 0 ? formatINR(totalAmount) : 'Cart'}
-            </span>
-            {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
-          </button>
+              >
+                <Search size={16} style={{ color: 'var(--primary)', flexShrink: 0 }} />
+                <input
+                  type="text"
+                  placeholder='Search "milk", "bread", "pharmacy"...'
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onFocus={() => {
+                    if (onOpenSearch) onOpenSearch();
+                  }}
+                  readOnly={!!onOpenSearch}
+                  className="mobile-search-input"
+                  aria-label="Search items or neighborhood shops"
+                />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </header>

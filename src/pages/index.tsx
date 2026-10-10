@@ -144,7 +144,7 @@ export default function HomePage({ onOpenSearch }: HomePageProps) {
           <section style={{ marginBottom: 32 }}>
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
               gap: 16
             }}>
               <div style={{
@@ -302,7 +302,7 @@ export default function HomePage({ onOpenSearch }: HomePageProps) {
           <section style={{
             background: 'linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)',
             borderRadius: 'var(--radius-xl)',
-            padding: '36px 28px',
+            padding: 'clamp(20px, 4vw, 36px) clamp(16px, 4vw, 28px)',
             marginBottom: 44,
             border: '1px solid var(--border)'
           }}>
@@ -310,7 +310,7 @@ export default function HomePage({ onOpenSearch }: HomePageProps) {
               <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--primary)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                 THE LOCALKART ADVANTAGE
               </span>
-              <h2 style={{ fontSize: 26, marginTop: 8, marginBottom: 8 }}>
+              <h2 style={{ fontSize: 'clamp(20px, 4vw, 26px)', marginTop: 8, marginBottom: 8 }}>
                 Why Shop from Your Neighborhood Stores?
               </h2>
               <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
@@ -318,7 +318,7 @@ export default function HomePage({ onOpenSearch }: HomePageProps) {
               </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 16 }}>
               <div style={{ background: '#ffffff', padding: 22, borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
                 <div style={{ width: 42, height: 42, borderRadius: 10, background: 'var(--primary-light)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
                   <Clock size={20} />

@@ -367,7 +367,7 @@ export default function SellerDashboardPage() {
                           </div>
 
                           {/* ACTION BUTTONS */}
-                          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                             {isNewOrder && (
                               <>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>

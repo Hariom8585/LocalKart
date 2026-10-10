@@ -404,7 +404,7 @@ export default function OrderTrackingPage({ onOpenSearch }: { onOpenSearch?: () 
                 : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
             color: '#ffffff',
             borderRadius: 'var(--radius-xl)',
-            padding: '24px 28px',
+            padding: 'clamp(16px, 4vw, 24px) clamp(16px, 4vw, 28px)',
             marginBottom: 28,
             boxShadow: 'var(--shadow-md)',
             display: 'flex',
@@ -417,7 +417,7 @@ export default function OrderTrackingPage({ onOpenSearch }: { onOpenSearch?: () 
               <span style={{ fontSize: 12, fontWeight: 800, color: isCancelled ? '#fca5a5' : '#34d399', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                 {isDelivered ? 'ORDER DELIVERED SUCCESSFULLY' : isCancelled ? 'ORDER CANCELLED' : 'LIVE ORDER TRACKING'}
               </span>
-              <h1 style={{ fontSize: 24, color: '#ffffff', marginTop: 4, lineHeight: 1.2 }}>
+              <h1 style={{ fontSize: 'clamp(20px, 4vw, 24px)', color: '#ffffff', marginTop: 4, lineHeight: 1.2 }}>
                 Order #{order.order_number}
               </h1>
               <p style={{ fontSize: 13, color: '#cbd5e1', marginTop: 4 }}>
@@ -445,13 +445,13 @@ export default function OrderTrackingPage({ onOpenSearch }: { onOpenSearch?: () 
             )}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 20 }}>
             {/* Left Column: Timeline */}
             <div style={{
               background: '#ffffff',
               borderRadius: 'var(--radius-lg)',
               border: '1px solid var(--border)',
-              padding: 24,
+              padding: 'clamp(16px, 3.5vw, 24px)',
               boxShadow: 'var(--shadow-sm)'
             }}>
               <h3 style={{ fontSize: 18, marginBottom: 4 }}>Order Lifecycle</h3>

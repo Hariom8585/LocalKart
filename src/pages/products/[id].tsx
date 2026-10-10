@@ -116,14 +116,14 @@ export default function ProductDetailPage({ onOpenSearch }: { onOpenSearch?: () 
             borderRadius: 'var(--radius-xl)',
             border: '1px solid var(--border)',
             overflow: 'hidden',
-            padding: 32,
+            padding: 'clamp(16px, 4vw, 32px)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 40,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: 'clamp(20px, 4vw, 40px)',
             marginBottom: 40,
           }}>
             {/* Product Image */}
-            <div style={{ position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', height: 380, background: 'var(--bg-muted)' }}>
+            <div style={{ position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', height: 'clamp(220px, 45vw, 380px)', background: 'var(--bg-muted)' }}>
               <img
                 src={product.image_url}
                 alt={product.name}

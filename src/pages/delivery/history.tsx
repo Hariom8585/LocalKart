@@ -63,7 +63,7 @@ export default function DeliveryHistoryPage() {
               padding: 24,
               boxShadow: 'var(--shadow-sm)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
                 <div>
                   <h2 style={{ fontSize: 20 }}>Completed Deliveries & Payouts</h2>
                   <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
@@ -95,7 +95,9 @@ export default function DeliveryHistoryPage() {
                         padding: 16,
                         borderRadius: 'var(--radius-md)',
                         background: 'var(--bg-muted)',
-                        border: '1px solid var(--border-light)'
+                        border: '1px solid var(--border-light)',
+                        flexWrap: 'wrap',
+                        gap: 12
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

@@ -644,13 +644,14 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
               borderBottom: '2px solid var(--border)',
               marginBottom: 24,
               overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch',
             }}
           >
             <button
               type="button"
               onClick={() => setActiveTab('orders')}
               style={{
-                padding: '12px 18px',
+                padding: '12px 16px',
                 border: 'none',
                 background: 'transparent',
                 fontWeight: 700,
@@ -662,6 +663,8 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
               }}
             >
               <Package size={16} />
@@ -672,7 +675,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
               type="button"
               onClick={() => setActiveTab('addresses')}
               style={{
-                padding: '12px 18px',
+                padding: '12px 16px',
                 border: 'none',
                 background: 'transparent',
                 fontWeight: 700,
@@ -684,6 +687,8 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
               }}
             >
               <MapPin size={16} />
@@ -694,7 +699,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
               type="button"
               onClick={() => setActiveTab('coupons')}
               style={{
-                padding: '12px 18px',
+                padding: '12px 16px',
                 border: 'none',
                 background: 'transparent',
                 fontWeight: 700,
@@ -706,6 +711,8 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
               }}
             >
               <Tag size={16} />
@@ -716,7 +723,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
               type="button"
               onClick={() => setActiveTab('support')}
               style={{
-                padding: '12px 18px',
+                padding: '12px 16px',
                 border: 'none',
                 background: 'transparent',
                 fontWeight: 700,
@@ -728,6 +735,8 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
               }}
             >
               <ShieldCheck size={16} />
@@ -932,7 +941,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
                     gap: 16,
                   }}
                 >
@@ -1053,7 +1062,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
                   gap: 16,
                 }}
               >
@@ -1144,7 +1153,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                 background: '#ffffff',
                 borderRadius: 'var(--radius-lg)',
                 border: '1px solid var(--border)',
-                padding: 28,
+                padding: 'clamp(16px, 3.5vw, 28px)',
                 boxShadow: 'var(--shadow-sm)',
               }}
             >
@@ -1153,7 +1162,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                 We connect you directly to neighborhood stores with dedicated same-day fleet delivery.
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: 16 }}>
                 <div style={{ padding: 18, borderRadius: 'var(--radius-md)', background: 'var(--bg-muted)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                     <Zap size={20} style={{ color: 'var(--primary)' }} />

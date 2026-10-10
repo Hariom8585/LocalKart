@@ -94,7 +94,7 @@ export const LocationModal: React.FC = () => {
           <label style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)', marginBottom: 8, display: 'block' }}>
             1. Select City
           </label>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 90px), 1fr))', gap: 8 }}>
             {cities.map((city) => {
               const isSelected = selectedCity.id === city.id;
               return (
@@ -103,18 +103,19 @@ export const LocationModal: React.FC = () => {
                   type="button"
                   onClick={() => setSelectedCity(city)}
                   style={{
-                    padding: '12px 8px',
+                    padding: '10px 6px',
                     borderRadius: 'var(--radius-md)',
                     border: isSelected ? '2px solid var(--primary)' : '1px solid var(--border)',
                     background: isSelected ? 'var(--primary-light)' : '#ffffff',
                     color: isSelected ? 'var(--primary)' : 'var(--text-main)',
                     fontWeight: isSelected ? 700 : 500,
-                    fontSize: 14,
+                    fontSize: 13,
                     textAlign: 'center',
                     transition: 'all 0.2s ease',
+                    cursor: 'pointer',
                   }}
                 >
-                  <Building size={18} style={{ margin: '0 auto 6px', display: 'block' }} />
+                  <Building size={16} style={{ margin: '0 auto 4px', display: 'block' }} />
                   {city.name}
                 </button>
               );
@@ -127,7 +128,7 @@ export const LocationModal: React.FC = () => {
           <label style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)', marginBottom: 8, display: 'block' }}>
             2. Select Locality / Area in {selectedCity.name}
           </label>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 10, maxHeight: 220, overflowY: 'auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 110px), 1fr))', gap: 8, maxHeight: 220, overflowY: 'auto' }}>
             {availableAreas.map((area) => {
               const isSelected = selectedArea.id === area.id;
               return (
@@ -139,25 +140,22 @@ export const LocationModal: React.FC = () => {
                     setIsLocationModalOpen(false);
                   }}
                   style={{
-                    padding: '10px 12px',
+                    padding: '9px 10px',
                     borderRadius: 'var(--radius-md)',
                     border: isSelected ? '2px solid var(--primary)' : '1px solid var(--border)',
                     background: isSelected ? 'var(--primary-light)' : 'var(--bg-muted)',
                     color: isSelected ? 'var(--primary)' : 'var(--text-main)',
                     fontWeight: isSelected ? 700 : 500,
                     fontSize: 13,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
                     textAlign: 'left',
                     transition: 'all 0.2s ease',
+                    cursor: 'pointer',
                   }}
                 >
-                  <div>
-                    <div>{area.name}</div>
-                    <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>PIN: {area.pincode}</div>
+                  <div style={{ fontWeight: 600 }}>{area.name}</div>
+                  <div style={{ fontSize: 11, color: isSelected ? 'var(--primary)' : 'var(--text-muted)' }}>
+                    PIN: {area.pincode}
                   </div>
-                  {isSelected && <Check size={16} style={{ color: 'var(--primary)' }} />}
                 </button>
               );
             })}

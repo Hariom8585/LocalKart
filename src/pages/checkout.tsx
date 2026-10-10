@@ -316,8 +316,9 @@ export default function CheckoutPage({ onOpenSearch }: { onOpenSearch?: () => vo
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: 32,
+            marginBottom: 28,
             position: 'relative',
+            gap: 6,
           }}>
             {steps.map((s) => {
               const isDone = currentStep > s.num;
@@ -331,33 +332,38 @@ export default function CheckoutPage({ onOpenSearch }: { onOpenSearch?: () => vo
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 8,
+                    gap: 6,
                     cursor: s.num < currentStep ? 'pointer' : 'default',
                     zIndex: 2,
                     background: 'var(--bg-main)',
-                    padding: '0 8px'
+                    padding: '0 4px',
+                    minWidth: 0,
                   }}
                 >
                   <div style={{
-                    width: 32,
-                    height: 32,
+                    width: 30,
+                    height: 30,
                     borderRadius: '50%',
                     background: isDone ? 'var(--success)' : isCurrent ? 'var(--primary)' : 'var(--border)',
                     color: '#ffffff',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 14,
-                    fontWeight: 700,
-                  }}>
-                    {isDone ? <CheckCircle2 size={18} /> : s.num}
-                  </div>
-                  <span style={{
                     fontSize: 13,
-                    fontWeight: isCurrent ? 700 : 500,
-                    color: isCurrent ? 'var(--text-main)' : 'var(--text-muted)',
-                    display: 'inline'
+                    fontWeight: 700,
+                    flexShrink: 0,
                   }}>
+                    {isDone ? <CheckCircle2 size={16} /> : s.num}
+                  </div>
+                  <span
+                    className={isCurrent ? '' : 'desktop-step-title'}
+                    style={{
+                      fontSize: 12,
+                      fontWeight: isCurrent ? 700 : 500,
+                      color: isCurrent ? 'var(--text-main)' : 'var(--text-muted)',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
                     {s.title}
                   </span>
                 </div>
@@ -366,13 +372,13 @@ export default function CheckoutPage({ onOpenSearch }: { onOpenSearch?: () => vo
           </div>
 
           {/* Checkout Grid (2 columns: Form Step + Sticky Bill Breakdown) */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 24, alignItems: 'start' }}>
             {/* Left Column: Active Step Content */}
             <div style={{
               background: '#ffffff',
               borderRadius: 'var(--radius-lg)',
               border: '1px solid var(--border)',
-              padding: 28,
+              padding: 'clamp(16px, 3.5vw, 28px)',
               boxShadow: 'var(--shadow-sm)'
             }}>
               {/* STEP 1: DELIVERY ADDRESS */}
