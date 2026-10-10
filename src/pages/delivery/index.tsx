@@ -59,6 +59,7 @@ export default function DeliveryPartnerPage() {
     loadPartnerData();
     const interval = setInterval(loadPartnerData, 5000);
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id]);
 
   const toggleOnline = async () => {

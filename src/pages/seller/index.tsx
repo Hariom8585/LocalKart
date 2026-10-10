@@ -67,6 +67,7 @@ export default function SellerDashboardPage() {
     loadSellerData();
     const interval = setInterval(loadSellerData, 5000);
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id]);
 
   // Order action handlers

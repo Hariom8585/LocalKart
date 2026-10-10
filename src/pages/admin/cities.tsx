@@ -39,6 +39,7 @@ export default function AdminCitiesPage() {
 
   useEffect(() => {
     loadCities();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreateCity = async (e: React.FormEvent) => {

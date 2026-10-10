@@ -64,6 +64,7 @@ export default function SellerCatalogPage() {
 
   useEffect(() => {
     loadCatalog();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id]);
 
   const openAddModal = () => {
