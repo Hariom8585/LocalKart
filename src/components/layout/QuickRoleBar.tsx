@@ -94,7 +94,7 @@ export const QuickRoleBar: React.FC = () => {
             ● <span className="demo-text-full">DEMO ENVIRONMENT</span><span className="demo-text-short">DEMO</span>
           </span>
           <span className="role-user-text">
-            Logged in as: <strong className="role-user-name" title={user.name}>{user.name}</strong>
+            <span className="role-user-prefix">Logged in as: </span><strong className="role-user-name" title={user.name}>{user.name}</strong>
           </span>
         </div>
 

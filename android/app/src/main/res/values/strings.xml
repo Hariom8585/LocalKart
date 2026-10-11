@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LocalKart</string>
+    <string name="offline_title">No Internet Connection</string>
+    <string name="offline_desc">LocalKart needs an active internet connection to load neighborhood stores, real-time products, and order tracking. Please check your Wi-Fi or mobile data.</string>
+    <string name="btn_retry">Retry Connection</string>
+    <string name="loading_text">Connecting to LocalKart…</string>
+    <string name="press_again_exit">Press back again to exit</string>
+</resources>

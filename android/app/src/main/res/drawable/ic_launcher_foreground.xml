@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Shopping bag outline -->
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M34,40 L34,76 C34,80.4 37.6,84 42,84 L66,84 C70.4,84 74,80.4 74,76 L74,40 Z" />
+    <path
+        android:fillColor="#059669"
+        android:pathData="M40,44 L68,44 L66,78 C66,79.1 65.1,80 64,80 L44,80 C42.9,80 42,79.1 42,78 Z" />
+    <!-- Bag Handle -->
+    <path
+        android:strokeColor="#ffffff"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M46,42 C46,33 62,33 62,42" />
+    <!-- Center Sparkle Star in Amber -->
+    <path
+        android:fillColor="#f59e0b"
+        android:pathData="M54,54 C55,59 59,60 63,61 C59,62 55,63 54,68 C53,63 49,62 45,61 C49,60 53,59 54,54 Z" />
+</vector>

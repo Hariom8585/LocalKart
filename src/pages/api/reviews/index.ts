@@ -30,7 +30,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const newRev = db.addReview({
       order_id: order_id || `order-${Date.now()}`,
       user_id: user_id || 'user-cust-1',
-      user_name: user_name || 'Rahul Sharma',
+      user_name: user_name || 'Hariom Yadav',
       shop_id,
       product_id: product_id || undefined,
       shop_rating: Number(shop_rating),

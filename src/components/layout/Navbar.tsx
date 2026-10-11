@@ -24,7 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
   const router = useRouter();
   const { selectedCity, selectedArea, setIsLocationModalOpen } = useLocation();
   const { itemCount, totalAmount, setIsCartDrawerOpen } = useCart();
-  const { user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const [searchInput, setSearchInput] = useState('');
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               title="Customer Dashboard & Profile"
             >
               <UserIcon size={16} />
-              <span>Account</span>
+              <span>{isLoggedIn ? user.name.split(' ')[0] : 'Account'}</span>
             </Link>
 
             <Link
@@ -154,18 +154,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               </div>
             </button>
 
-            <button
-              type="button"
-              onClick={() => setIsCartDrawerOpen(true)}
-              className="mobile-nav-cart-btn"
-              aria-label={`Shopping cart with ${itemCount} items`}
-              title="View Cart"
-            >
-              <ShoppingBag size={19} />
-              {itemCount > 0 && (
-                <span className="mobile-cart-badge">{itemCount}</span>
-              )}
-            </button>
+            <div className="mobile-nav-actions-group">
+              <Link
+                href="/customer"
+                className="mobile-nav-account-btn"
+                aria-label="Customer Account Profile"
+                title="Customer Profile & Login"
+              >
+                <UserIcon size={17} />
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => setIsCartDrawerOpen(true)}
+                className="mobile-nav-cart-btn"
+                aria-label={`Shopping cart with ${itemCount} items`}
+                title="View Cart"
+              >
+                <ShoppingBag size={18} />
+                {itemCount > 0 && (
+                  <span className="mobile-cart-badge">{itemCount}</span>
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Bottom Row: Full-Width Search Input */}

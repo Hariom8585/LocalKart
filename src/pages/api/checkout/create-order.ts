@@ -105,7 +105,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Save preliminary order into DB
     const newOrder = db.createOrder({
       user_id: user_id || 'user-cust-1',
-      customer_name: customer_name || 'Rahul Sharma',
+      customer_name: customer_name || 'Hariom Yadav',
       customer_phone: customer_phone || '+91 98765 43210',
       customer_email: customer_email || 'customer@example.com',
       shop_id: shop.id,

@@ -6,6 +6,7 @@ export interface User {
   email: string;
   phone: string;
   role: UserRole;
+  password_hash?: string;
   avatar_url?: string;
   is_verified: boolean;
   created_at: string;

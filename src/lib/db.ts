@@ -64,7 +64,7 @@ function loadDatabase(): DatabaseSchema {
             id: 'addr-1',
             user_id: 'user-cust-1',
             title: 'Home',
-            receiver_name: 'Rahul Sharma',
+            receiver_name: 'Hariom Yadav',
             receiver_phone: '+91 98765 43210',
             flat_house_no: 'Flat 402, Green Avenue',
             area_locality: 'Model Town',
@@ -78,7 +78,7 @@ function loadDatabase(): DatabaseSchema {
             id: 'addr-2',
             user_id: 'user-cust-1',
             title: 'Office',
-            receiver_name: 'Rahul Sharma',
+            receiver_name: 'Hariom Yadav',
             receiver_phone: '+91 98765 43210',
             flat_house_no: 'Suite 301, Fortune Chambers',
             area_locality: 'Ferozepur Road',
@@ -92,7 +92,7 @@ function loadDatabase(): DatabaseSchema {
             id: 'addr-3',
             user_id: 'user-cust-1',
             title: 'Work (Chandigarh)',
-            receiver_name: 'Rahul Sharma',
+            receiver_name: 'Hariom Yadav',
             receiver_phone: '+91 98765 43210',
             flat_house_no: 'SCO 45-46, Top Floor',
             area_locality: 'Sector 17',
@@ -115,7 +115,7 @@ function loadDatabase(): DatabaseSchema {
             channel: 'whatsapp',
             recipient_phone: '+91 98765 43210',
             title: '🛍️ Order Confirmed!',
-            message: 'Hi Rahul Sharma, your order #LK-2026-89102 from *Sharma General Store* is confirmed! Total: ₹624. Same-day express delivery in progress.',
+            message: 'Hi Hariom Yadav, your order #LK-2026-89102 from *Sharma General Store* is confirmed! Total: ₹624. Same-day express delivery in progress.',
             status: 'read',
             created_at: new Date(Date.now() - 3600000).toISOString(),
           },
@@ -170,7 +170,7 @@ function loadDatabase(): DatabaseSchema {
         id: 'rev-1',
         order_id: 'order-sample-101',
         user_id: 'user-cust-1',
-        user_name: 'Rahul Sharma',
+        user_name: 'Hariom Yadav',
         shop_id: 'shop-ldh-1',
         shop_rating: 5,
         delivery_rating: 5,
@@ -184,7 +184,7 @@ function loadDatabase(): DatabaseSchema {
         id: 'addr-1',
         user_id: 'user-cust-1',
         title: 'Home',
-        receiver_name: 'Rahul Sharma',
+        receiver_name: 'Hariom Yadav',
         receiver_phone: '+91 98765 43210',
         flat_house_no: 'Flat 402, Green Avenue',
         area_locality: 'Model Town',
@@ -198,7 +198,7 @@ function loadDatabase(): DatabaseSchema {
         id: 'addr-2',
         user_id: 'user-cust-1',
         title: 'Office',
-        receiver_name: 'Rahul Sharma',
+        receiver_name: 'Hariom Yadav',
         receiver_phone: '+91 98765 43210',
         flat_house_no: 'Suite 301, Fortune Chambers',
         area_locality: 'Ferozepur Road',
@@ -212,7 +212,7 @@ function loadDatabase(): DatabaseSchema {
         id: 'addr-3',
         user_id: 'user-cust-1',
         title: 'Work (Chandigarh)',
-        receiver_name: 'Rahul Sharma',
+        receiver_name: 'Hariom Yadav',
         receiver_phone: '+91 98765 43210',
         flat_house_no: 'SCO 45-46, Top Floor',
         area_locality: 'Sector 17',
@@ -233,7 +233,7 @@ function loadDatabase(): DatabaseSchema {
         channel: 'whatsapp',
         recipient_phone: '+91 98765 43210',
         title: '🛍️ Order Confirmed!',
-        message: 'Hi Rahul Sharma, your order #LK-2026-89102 from *Sharma General Store* is confirmed! Total: ₹624. Same-day express delivery in progress.',
+        message: 'Hi Hariom Yadav, your order #LK-2026-89102 from *Sharma General Store* is confirmed! Total: ₹624. Same-day express delivery in progress.',
         status: 'read',
         created_at: new Date(Date.now() - 3600000).toISOString(),
       },
@@ -901,6 +901,28 @@ export const db = {
 
   getUser: (id: string) => {
     return loadDatabase().users.find(u => u.id === id) || null;
+  },
+
+  createUser: (userData: Omit<User, 'id'> & { password_hash?: string }) => {
+    const data = loadDatabase();
+    const newUser: User = {
+      ...userData,
+      id: `user-cust-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    };
+    data.users.push(newUser);
+    saveDatabase(data);
+    return newUser;
+  },
+
+  findUserByEmailOrPhone: (identifier: string) => {
+    const data = loadDatabase();
+    const clean = identifier.trim().toLowerCase();
+    const cleanDigits = identifier.replace(/\D/g, '');
+    return data.users.find(u => {
+      const uEmail = u.email ? u.email.toLowerCase().trim() : '';
+      const uDigits = u.phone ? u.phone.replace(/\D/g, '') : '';
+      return uEmail === clean || (cleanDigits.length >= 10 && uDigits.endsWith(cleanDigits.slice(-10)));
+    }) || null;
   },
 
   // Platform Config

@@ -3,8 +3,8 @@ import { User, UserRole } from '../types';
 export const DEMO_USERS: Record<UserRole, User> = {
   customer: {
     id: 'user-cust-1',
-    name: 'Rahul Sharma',
-    email: 'rahul.sharma@example.com',
+    name: 'Hariom Yadav',
+    email: 'hariom.yadav@example.com',
     phone: '+91 98765 43210',
     role: 'customer',
     avatar_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',

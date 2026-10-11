@@ -39,7 +39,7 @@ import { NotificationSimulatorModal } from '../../components/notifications/Notif
 
 export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?: () => void }) {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, logout, isLoggedIn } = useAuth();
   const {
     cities,
     selectedCity,
@@ -194,6 +194,77 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
 
       <main className="main-content" style={{ padding: '28px 0 60px' }}>
         <div className="container" style={{ maxWidth: 1040 }}>
+          {/* CUSTOMER AUTHENTICATION & SESSION CARD */}
+          <div
+            style={{
+              background: '#ffffff',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '14px 18px',
+              marginBottom: 20,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: 12,
+              boxShadow: 'var(--shadow-sm)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: '50%',
+                  background: isLoggedIn ? 'var(--primary-light)' : '#fef3c7',
+                  color: isLoggedIn ? 'var(--primary)' : '#b45309',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <UserIcon size={18} />
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)' }}>
+                  {isLoggedIn ? (
+                    <>Signed in as <strong style={{ color: 'var(--primary)' }}>{user.name}</strong> ({user.email})</>
+                  ) : (
+                    <>Exploring in Demo Mode as <strong style={{ color: '#b45309' }}>Hariom Yadav</strong></>
+                  )}
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                  {isLoggedIn
+                    ? 'Orders and saved delivery addresses are linked to your account.'
+                    : 'Log in to access your personal account or create a new customer account.'}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {isLoggedIn ? (
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="btn btn-outline btn-sm"
+                  style={{ color: 'var(--danger)', borderColor: '#fca5a5', fontWeight: 700 }}
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <>
+                  <Link href="/customer/login" className="btn btn-outline btn-sm" style={{ fontWeight: 700 }}>
+                    Log In
+                  </Link>
+                  <Link href="/customer/signup" className="btn btn-primary btn-sm" style={{ fontWeight: 700 }}>
+                    Create Account
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+
           {/* PROFILE HERO HEADER */}
           <div
             style={{

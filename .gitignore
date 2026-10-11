@@ -45,3 +45,9 @@ Thumbs.db
 .idea/
 .vscode/
 *.sw?
+
+# Android build outputs & binaries
+*.apk
+/android/app/build/
+/android/.gradle/
+/android/local.properties
