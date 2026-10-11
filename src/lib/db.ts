@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import {
   City, Area, Category, Shop, Product, User, Order,
   DeliveryPartner, Coupon, CouponRedemption, Review, PlatformConfig, OrderStatus, Address,
@@ -29,7 +30,9 @@ interface DatabaseSchema {
   notifications: Notification[];
 }
 
-const DATA_DIR = path.join(process.cwd(), '.data');
+const DATA_DIR = process.env.VERCEL
+  ? path.join(os.tmpdir(), 'localkart_data')
+  : path.join(process.cwd(), '.data');
 const DB_FILE = path.join(DATA_DIR, 'localkart_db.json');
 
 // In-memory cache
@@ -41,7 +44,7 @@ function ensureDataDir() {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
   } catch {
-    // Graceful fallback for read-only serverless environments (e.g. Vercel)
+    // Graceful fallback for read-only serverless environments
   }
 }
 
@@ -49,6 +52,19 @@ function loadDatabase(): DatabaseSchema {
   if (cachedDb) return cachedDb;
 
   ensureDataDir();
+
+  // If running on Vercel and writable DB file doesn't exist yet, seed it from repo data if available
+  if (process.env.VERCEL && !fs.existsSync(DB_FILE)) {
+    const seedFile = path.join(process.cwd(), '.data', 'localkart_db.json');
+    if (fs.existsSync(seedFile)) {
+      try {
+        const seedData = fs.readFileSync(seedFile, 'utf-8');
+        fs.writeFileSync(DB_FILE, seedData, 'utf-8');
+      } catch {
+        // Fall back to seed data below
+      }
+    }
+  }
 
   if (fs.existsSync(DB_FILE)) {
     try {

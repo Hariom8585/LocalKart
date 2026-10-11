@@ -42,7 +42,7 @@ export default function SellerCatalogPage() {
     try {
       const shopsRes = await fetch('/api/shops');
       const shopsData = await shopsRes.json();
-      const myShop = (shopsData.shops || []).find((s: Shop) => s.seller_id === user.id) || shopsData.shops[0];
+      const myShop = (shopsData.shops || []).find((s: Shop) => s.seller_id === user?.id) || shopsData.shops[0];
       setShop(myShop);
 
       if (myShop) {
@@ -65,7 +65,7 @@ export default function SellerCatalogPage() {
   useEffect(() => {
     loadCatalog();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  }, [user?.id]);
 
   const openAddModal = () => {
     setEditingProduct(null);

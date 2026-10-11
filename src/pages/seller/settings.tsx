@@ -27,7 +27,7 @@ export default function SellerSettingsPage() {
       try {
         const res = await fetch('/api/shops');
         const data = await res.json();
-        const myShop = (data.shops || []).find((s: Shop) => s.seller_id === user.id) || data.shops[0];
+        const myShop = (data.shops || []).find((s: Shop) => s.seller_id === user?.id) || data.shops[0];
         if (myShop) {
           setShop(myShop);
           setName(myShop.name);
@@ -47,7 +47,7 @@ export default function SellerSettingsPage() {
       }
     }
     loadShop();
-  }, [user.id]);
+  }, [user?.id]);
 
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();

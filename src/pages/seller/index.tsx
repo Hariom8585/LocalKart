@@ -43,7 +43,7 @@ export default function SellerDashboardPage() {
       // Find shop matching seller
       const shopsRes = await fetch('/api/shops');
       const shopsData = await shopsRes.json();
-      const myShop = (shopsData.shops || []).find((s: Shop) => s.seller_id === user.id) || shopsData.shops[0];
+      const myShop = (shopsData.shops || []).find((s: Shop) => s.seller_id === user?.id) || shopsData.shops[0];
       setShop(myShop);
 
       if (myShop) {
@@ -68,7 +68,7 @@ export default function SellerDashboardPage() {
     const interval = setInterval(loadSellerData, 5000);
     return () => clearInterval(interval);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  }, [user?.id]);
 
   // Order action handlers
   const handleAcceptOrder = async (orderId: string) => {

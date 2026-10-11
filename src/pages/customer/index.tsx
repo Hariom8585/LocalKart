@@ -63,8 +63,8 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
   // Address Modal State
   const [isAddAddressOpen, setIsAddAddressOpen] = useState(false);
   const [newTitle, setNewTitle] = useState('Home');
-  const [newReceiverName, setNewReceiverName] = useState(user.name);
-  const [newReceiverPhone, setNewReceiverPhone] = useState(user.phone);
+  const [newReceiverName, setNewReceiverName] = useState(user?.name || '');
+  const [newReceiverPhone, setNewReceiverPhone] = useState(user?.phone || '');
   const [newFlatNo, setNewFlatNo] = useState('');
   const [newAreaLocality, setNewAreaLocality] = useState('');
   const [newCityId, setNewCityId] = useState(selectedCity.id);
@@ -74,11 +74,16 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
   const [addressSubmitting, setAddressSubmitting] = useState(false);
 
   useEffect(() => {
+    if (!isLoggedIn || !user) {
+      router.replace('/customer/login?redirect=/customer');
+      return;
+    }
+
     async function loadCustomerData() {
       setLoading(true);
       try {
         const [ordersRes, couponsRes] = await Promise.all([
-          fetch(`/api/orders?userId=${user.id}`),
+          fetch(`/api/orders?userId=${user?.id || ''}`),
           fetch('/api/coupons'),
         ]);
 
@@ -96,7 +101,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
 
     loadCustomerData();
     loadAddresses();
-  }, [user.id, loadAddresses]);
+  }, [isLoggedIn, user, loadAddresses, router]);
 
   // Derived Metrics
   const activeOrders = orders.filter(
@@ -115,7 +120,7 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
 
   const handleAddAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newFlatNo.trim() || !newAreaLocality.trim()) return;
+    if (!user || !newFlatNo.trim() || !newAreaLocality.trim()) return;
 
     setAddressSubmitting(true);
     const targetCity = cities.find((c) => c.id === newCityId) || selectedCity;
@@ -180,6 +185,77 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
     setIsCartDrawerOpen(true);
   };
 
+  const handleSignOut = () => {
+    logout();
+    router.push('/customer/login');
+  };
+
+  if (!isLoggedIn || !user) {
+    return (
+      <>
+        <Head>
+          <title>Customer Login | LocalKart</title>
+        </Head>
+        <Navbar onOpenSearch={onOpenSearch} />
+        <main className="main-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '65vh', padding: '36px 16px' }}>
+          <div
+            style={{
+              maxWidth: 420,
+              width: '100%',
+              background: '#ffffff',
+              borderRadius: 'var(--radius-xl)',
+              padding: '36px 28px',
+              textAlign: 'center',
+              border: '1px solid var(--border)',
+              boxShadow: 'var(--shadow-lg)',
+            }}
+          >
+            <div
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: '50%',
+                background: 'var(--primary-light)',
+                color: 'var(--primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px',
+              }}
+            >
+              <UserIcon size={26} />
+            </div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: 'var(--text-main)' }}>
+              Sign In to Your Account
+            </h2>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24, lineHeight: 1.5 }}>
+              Please log in to manage your orders, saved delivery addresses, and hyperlocal delivery account.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <Link
+                href="/customer/login?redirect=/customer"
+                className="btn btn-primary"
+                style={{ fontWeight: 700, padding: '13px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6 }}
+              >
+                <span>Log In</span>
+                <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/customer/signup?redirect=/customer"
+                className="btn btn-outline"
+                style={{ fontWeight: 700, padding: '13px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              >
+                Create New Customer Account
+              </Link>
+            </div>
+          </div>
+        </main>
+        <MobileNav onOpenSearch={onOpenSearch} />
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -216,8 +292,8 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
                   width: 36,
                   height: 36,
                   borderRadius: '50%',
-                  background: isLoggedIn ? 'var(--primary-light)' : '#fef3c7',
-                  color: isLoggedIn ? 'var(--primary)' : '#b45309',
+                  background: 'var(--primary-light)',
+                  color: 'var(--primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -228,40 +304,23 @@ export default function CustomerDashboardPage({ onOpenSearch }: { onOpenSearch?:
               </div>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)' }}>
-                  {isLoggedIn ? (
-                    <>Signed in as <strong style={{ color: 'var(--primary)' }}>{user.name}</strong> ({user.email})</>
-                  ) : (
-                    <>Exploring in Demo Mode as <strong style={{ color: '#b45309' }}>Hariom Yadav</strong></>
-                  )}
+                  Signed in as <strong style={{ color: 'var(--primary)' }}>{user.name}</strong> ({user.email})
                 </div>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-                  {isLoggedIn
-                    ? 'Orders and saved delivery addresses are linked to your account.'
-                    : 'Log in to access your personal account or create a new customer account.'}
+                  Orders and saved delivery addresses are linked to your personal customer account.
                 </div>
               </div>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {isLoggedIn ? (
-                <button
-                  type="button"
-                  onClick={logout}
-                  className="btn btn-outline btn-sm"
-                  style={{ color: 'var(--danger)', borderColor: '#fca5a5', fontWeight: 700 }}
-                >
-                  Sign Out
-                </button>
-              ) : (
-                <>
-                  <Link href="/customer/login" className="btn btn-outline btn-sm" style={{ fontWeight: 700 }}>
-                    Log In
-                  </Link>
-                  <Link href="/customer/signup" className="btn btn-primary btn-sm" style={{ fontWeight: 700 }}>
-                    Create Account
-                  </Link>
-                </>
-              )}
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="btn btn-outline btn-sm"
+                style={{ color: 'var(--danger)', borderColor: '#fca5a5', fontWeight: 700 }}
+              >
+                Sign Out
+              </button>
             </div>
           </div>
 

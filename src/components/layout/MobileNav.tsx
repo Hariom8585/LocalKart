@@ -2,7 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCart } from '../../context/CartContext';
-import { Home, Store, Package, ShoppingBag, User as UserIcon } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { Home, Store, Package, ShoppingBag, User as UserIcon, LogIn } from 'lucide-react';
 
 interface MobileNavProps {
   onOpenSearch?: () => void;
@@ -11,6 +12,7 @@ interface MobileNavProps {
 export const MobileNav: React.FC<MobileNavProps> = () => {
   const router = useRouter();
   const { itemCount, setIsCartDrawerOpen } = useCart();
+  const { isLoggedIn, user } = useAuth();
 
   const isActive = (path: string) => router.pathname === path;
   const isAccountActive =
@@ -35,10 +37,17 @@ export const MobileNav: React.FC<MobileNavProps> = () => {
         <span className="bottom-tab-label">Orders</span>
       </Link>
 
-      <Link href="/customer" className={`bottom-tab ${isAccountActive ? 'active' : ''}`} aria-label="Account Profile and Login">
-        <UserIcon size={20} className="bottom-tab-icon" />
-        <span className="bottom-tab-label">Account</span>
-      </Link>
+      {isLoggedIn && user ? (
+        <Link href="/customer" className={`bottom-tab ${isAccountActive ? 'active' : ''}`} aria-label="Account Profile">
+          <UserIcon size={20} className="bottom-tab-icon" />
+          <span className="bottom-tab-label">Account</span>
+        </Link>
+      ) : (
+        <Link href="/customer/login" className={`bottom-tab ${isAccountActive ? 'active' : ''}`} aria-label="Customer Log In or Sign Up">
+          <LogIn size={20} className="bottom-tab-icon" />
+          <span className="bottom-tab-label">Log In</span>
+        </Link>
+      )}
 
       <button
         type="button"

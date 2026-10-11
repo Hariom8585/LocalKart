@@ -3,10 +3,10 @@ import { User, UserRole } from '../types';
 import { DEMO_USERS } from '../lib/auth';
 
 interface AuthContextType {
-  user: User;
+  user: User | null;
   currentRole: UserRole;
   switchRole: (role: UserRole) => void;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   login: (user: User) => void;
   logout: () => void;
   isLoggedIn: boolean;
@@ -16,11 +16,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User>(DEMO_USERS.customer);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentRole, setCurrentRole] = useState<UserRole>('customer');
 
   useEffect(() => {
-    // 1. Check if an authenticated user session is saved in localStorage
+    // 1. Check if an authenticated customer user session is saved in localStorage
     const savedUser = localStorage.getItem('localkart_user');
     if (savedUser) {
       try {
@@ -28,6 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (parsed && parsed.id) {
           setUser(parsed);
           setIsLoggedIn(true);
+          setCurrentRole(parsed.role || 'customer');
           return;
         }
       } catch (e) {
@@ -35,34 +37,65 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     }
 
-    // 2. Otherwise restore the demo persona
+    // 2. Otherwise check if a non-customer demo persona was explicitly selected
     const savedRole = localStorage.getItem('localkart_auth_role');
-    if (savedRole && (savedRole in DEMO_USERS)) {
+    if (savedRole && savedRole !== 'customer' && (savedRole in DEMO_USERS)) {
       setUser(DEMO_USERS[savedRole as UserRole]);
+      setCurrentRole(savedRole as UserRole);
+      setIsLoggedIn(true);
+    } else {
+      // By default: guest customer, unauthenticated
+      setUser(null);
+      setIsLoggedIn(false);
+      setCurrentRole('customer');
     }
   }, []);
 
   const login = (newUser: User) => {
     setUser(newUser);
     setIsLoggedIn(true);
+    setCurrentRole(newUser.role || 'customer');
     localStorage.setItem('localkart_user', JSON.stringify(newUser));
-    localStorage.setItem('localkart_auth_role', newUser.role);
+    localStorage.setItem('localkart_auth_role', newUser.role || 'customer');
   };
 
   const logout = () => {
     localStorage.removeItem('localkart_user');
+    localStorage.removeItem('localkart_auth_role');
     setIsLoggedIn(false);
-    setUser(DEMO_USERS.customer);
-    localStorage.setItem('localkart_auth_role', 'customer');
+    setUser(null);
+    setCurrentRole('customer');
   };
 
   const switchRole = (role: UserRole) => {
-    const selected = DEMO_USERS[role];
-    if (selected) {
-      setUser(selected);
-      localStorage.removeItem('localkart_user');
+    if (role === 'customer') {
+      const savedUser = localStorage.getItem('localkart_user');
+      if (savedUser) {
+        try {
+          const parsed = JSON.parse(savedUser);
+          if (parsed && parsed.id) {
+            setUser(parsed);
+            setIsLoggedIn(true);
+            setCurrentRole('customer');
+            localStorage.setItem('localkart_auth_role', 'customer');
+            return;
+          }
+        } catch (e) {
+          localStorage.removeItem('localkart_user');
+        }
+      }
+      setUser(null);
       setIsLoggedIn(false);
-      localStorage.setItem('localkart_auth_role', role);
+      setCurrentRole('customer');
+      localStorage.setItem('localkart_auth_role', 'customer');
+    } else {
+      const selected = DEMO_USERS[role];
+      if (selected) {
+        setUser(selected);
+        setIsLoggedIn(true);
+        setCurrentRole(role);
+        localStorage.setItem('localkart_auth_role', role);
+      }
     }
   };
 
@@ -70,7 +103,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider
       value={{
         user,
-        currentRole: user.role,
+        currentRole,
         switchRole,
         setUser,
         login,
@@ -89,3 +122,4 @@ export const useAuth = () => {
   if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
   return ctx;
 };
+

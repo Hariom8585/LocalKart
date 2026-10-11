@@ -12,15 +12,21 @@ import { Package, Clock, Store, ChevronRight, ArrowRight, CheckCircle2, AlertCir
 
 export default function OrdersHistoryPage({ onOpenSearch }: { onOpenSearch?: () => void }) {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isLoggedIn || !user) {
+      setLoading(false);
+      setOrders([]);
+      return;
+    }
+
     async function loadOrders() {
       setLoading(true);
       try {
-        const res = await fetch(`/api/orders?userId=${user.id}`);
+        const res = await fetch(`/api/orders?userId=${user?.id || ''}`);
         const data = await res.json();
         setOrders(data.orders || []);
       } catch (e) {
@@ -30,7 +36,7 @@ export default function OrdersHistoryPage({ onOpenSearch }: { onOpenSearch?: () 
       }
     }
     loadOrders();
-  }, [user.id]);
+  }, [isLoggedIn, user]);
 
   return (
     <>
@@ -49,7 +55,30 @@ export default function OrdersHistoryPage({ onOpenSearch }: { onOpenSearch?: () 
             </p>
           </div>
 
-          {loading ? (
+          {!isLoggedIn || !user ? (
+            <div style={{
+              background: '#ffffff',
+              borderRadius: 'var(--radius-lg)',
+              border: '1px solid var(--border)',
+              padding: '60px 20px',
+              textAlign: 'center',
+              boxShadow: 'var(--shadow-sm)',
+            }}>
+              <Package size={48} style={{ color: 'var(--text-light)', margin: '0 auto 14px' }} />
+              <h3 style={{ fontSize: 18, marginBottom: 6 }}>Sign in to view your orders</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>
+                Please log in or create an account to view and track your orders.
+              </p>
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+                <Link href="/customer/login?redirect=/orders" className="btn btn-primary btn-sm" style={{ fontWeight: 700 }}>
+                  Log In
+                </Link>
+                <Link href="/customer/signup?redirect=/orders" className="btn btn-outline btn-sm" style={{ fontWeight: 700 }}>
+                  Sign Up
+                </Link>
+              </div>
+            </div>
+          ) : loading ? (
             <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
               Loading your orders...
             </div>

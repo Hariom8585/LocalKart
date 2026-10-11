@@ -94,14 +94,41 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
 
           {/* Actions */}
           <div className="nav-actions">
-            <Link
-              href="/customer"
-              className="btn btn-outline btn-sm nav-action-btn"
-              title="Customer Dashboard & Profile"
-            >
-              <UserIcon size={16} />
-              <span>{isLoggedIn ? user.name.split(' ')[0] : 'Account'}</span>
-            </Link>
+            {isLoggedIn && user ? (
+              <Link
+                href="/customer"
+                className="btn btn-outline btn-sm nav-action-btn"
+                title="Customer Dashboard & Profile"
+              >
+                <UserIcon size={16} />
+                <span>{user.name ? user.name.split(' ')[0] : 'Account'}</span>
+              </Link>
+            ) : (
+              <div style={{ display: 'flex', gap: '0.45rem', alignItems: 'center' }}>
+                <Link
+                  href="/customer/login"
+                  className="btn btn-outline btn-sm nav-action-btn"
+                  title="Sign In to Customer Account"
+                  style={{ fontWeight: 700 }}
+                >
+                  <UserIcon size={16} />
+                  <span>Log In</span>
+                </Link>
+                <Link
+                  href="/customer/signup"
+                  className="btn btn-primary btn-sm nav-action-btn"
+                  title="Create Customer Account"
+                  style={{
+                    fontWeight: 700,
+                    background: 'var(--primary)',
+                    color: '#ffffff',
+                    border: '1px solid var(--primary)',
+                  }}
+                >
+                  <span>Sign Up</span>
+                </Link>
+              </div>
+            )}
 
             <Link
               href="/orders"
@@ -156,10 +183,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
 
             <div className="mobile-nav-actions-group">
               <Link
-                href="/customer"
+                href={isLoggedIn && user ? '/customer' : '/customer/login'}
                 className="mobile-nav-account-btn"
-                aria-label="Customer Account Profile"
-                title="Customer Profile & Login"
+                aria-label={isLoggedIn && user ? 'Customer Account Profile' : 'Customer Log In / Sign Up'}
+                title={isLoggedIn && user ? `Logged in as ${user.name}` : 'Customer Log In / Sign Up'}
               >
                 <UserIcon size={17} />
               </Link>

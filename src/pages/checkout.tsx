@@ -89,8 +89,8 @@ export default function CheckoutPage({ onOpenSearch }: { onOpenSearch?: () => vo
   // New Address modal/form toggle
   const [isAddingNewAddr, setIsAddingNewAddr] = useState(false);
   const [newAddrTitle, setNewAddrTitle] = useState('Home');
-  const [newReceiverName, setNewReceiverName] = useState(user.name);
-  const [newReceiverPhone, setNewReceiverPhone] = useState(user.phone);
+  const [newReceiverName, setNewReceiverName] = useState(user?.name || '');
+  const [newReceiverPhone, setNewReceiverPhone] = useState(user?.phone || '');
   const [newFlatNo, setNewFlatNo] = useState('');
   const [newLandmark, setNewLandmark] = useState('');
 
@@ -132,10 +132,10 @@ export default function CheckoutPage({ onOpenSearch }: { onOpenSearch?: () => vo
     if (!newFlatNo.trim()) return;
 
     const added = await addAddress({
-      user_id: user.id,
+      user_id: user?.id || 'guest-user',
       title: newAddrTitle,
-      receiver_name: newReceiverName || user.name,
-      receiver_phone: newReceiverPhone || user.phone,
+      receiver_name: newReceiverName || user?.name || 'Customer',
+      receiver_phone: newReceiverPhone || user?.phone || '+91 98765 43210',
       flat_house_no: newFlatNo,
       area_locality: selectedArea.name,
       city_id: selectedCity.id,
@@ -164,10 +164,10 @@ export default function CheckoutPage({ onOpenSearch }: { onOpenSearch?: () => vo
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          user_id: user.id,
+          user_id: user?.id || 'guest-user',
           customer_name: selectedAddress.receiver_name,
           customer_phone: selectedAddress.receiver_phone,
-          customer_email: user.email,
+          customer_email: user?.email || 'customer@localkart.com',
           shop_id: shopId,
           items,
           address: selectedAddress,
@@ -232,7 +232,7 @@ export default function CheckoutPage({ onOpenSearch }: { onOpenSearch?: () => vo
         prefill: {
           name: selectedAddress.receiver_name,
           contact: selectedAddress.receiver_phone,
-          email: user.email,
+          email: user?.email || 'customer@localkart.com',
         },
         theme: {
           color: '#059669',

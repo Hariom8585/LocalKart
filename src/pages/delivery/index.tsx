@@ -38,7 +38,7 @@ export default function DeliveryPartnerPage() {
       const partnersData = await partnersRes.json();
       const ordersData = await ordersRes.json();
 
-      const myPartner = (partnersData.partners || []).find((p: DeliveryPartner) => p.user_id === user.id) || partnersData.partners[0];
+      const myPartner = (partnersData.partners || []).find((p: DeliveryPartner) => p.user_id === user?.id) || partnersData.partners[0];
       setPartner(myPartner);
 
       // Orders assigned to this partner or available for pickup
@@ -60,7 +60,7 @@ export default function DeliveryPartnerPage() {
     const interval = setInterval(loadPartnerData, 5000);
     return () => clearInterval(interval);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  }, [user?.id]);
 
   const toggleOnline = async () => {
     if (!partner) return;

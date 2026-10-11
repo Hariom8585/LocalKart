@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types';
@@ -47,7 +48,7 @@ const ROLES: {
 ];
 
 export const QuickRoleBar: React.FC = () => {
-  const { currentRole, switchRole, user } = useAuth();
+  const { currentRole, switchRole, user, isLoggedIn } = useAuth();
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -93,9 +94,25 @@ export const QuickRoleBar: React.FC = () => {
           <span className="role-demo-badge">
             ● <span className="demo-text-full">DEMO ENVIRONMENT</span><span className="demo-text-short">DEMO</span>
           </span>
-          <span className="role-user-text">
-            <span className="role-user-prefix">Logged in as: </span><strong className="role-user-name" title={user.name}>{user.name}</strong>
-          </span>
+          {isLoggedIn && user ? (
+            <span className="role-user-text">
+              <span className="role-user-prefix">Logged in as: </span>
+              <strong className="role-user-name" title={user.name}>{user.name}</strong>
+            </span>
+          ) : (
+            <span className="role-user-text">
+              <span className="role-user-prefix">Guest Mode: </span>
+              <span style={{ display: 'inline-flex', gap: '6px', alignItems: 'center' }}>
+                <Link href="/customer/login" style={{ color: 'var(--primary)', fontWeight: 700, textDecoration: 'underline' }}>
+                  Log In
+                </Link>
+                <span style={{ color: '#94a3b8' }}>/</span>
+                <Link href="/customer/signup" style={{ color: 'var(--primary)', fontWeight: 700, textDecoration: 'underline' }}>
+                  Sign Up
+                </Link>
+              </span>
+            </span>
+          )}
         </div>
 
         {/* Desktop: Full Role Pills */}
